@@ -94,15 +94,17 @@ def check_order(request):
         # print('body_str：', body_str)
         from urllib.parse import parse_qs
         post_data = parse_qs(body_str)  # 根据&符号分割
-        print(post_data)  # post_data是一个字符串
+        # print(post_data)  # post_data是一个字符串
         post_dict = {}
         for k, v in post_data.items():
             post_dict[k] = v[0]
         sign = post_dict.pop('sign', None)
         status = alipay.verify(post_dict, sign)
+        print(status)
         if status:  # 支付成功
-            out_trade_no = post_data['out_trade_no']
-            models.Order.objects.filter(order_number=out_trade_no).update(order_status=1)
+            out_trade_no = post_dict['out_trade_no']
+            return_value = models.Order.objects.filter(order_number=out_trade_no).update(order_status=1)
+            print('return_value', return_value)
             return HttpResponse('success')  # 向支付宝返回success,表示接收到请求
         else:
             return HttpResponse('支付失败')
