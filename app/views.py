@@ -108,3 +108,8 @@ def check_order(request):
             return HttpResponse('支付失败')
     else:
         return HttpResponse('只支持POST请求')
+
+
+def order_list(request):
+    order_obj = models.Order.objects.all()
+    return render(request, 'order_list.html', {'order_obj': order_obj})
