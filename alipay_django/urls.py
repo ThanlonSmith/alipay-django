@@ -23,4 +23,5 @@ urlpatterns = [
     path('purchase/<goods_id>/', views.purchase),
     path('show_msg/', views.show_msg),
     path('check_order/', views.check_order),
+    path('order_list/', views.order_list),
 ]
